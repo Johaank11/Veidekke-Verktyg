@@ -8,6 +8,14 @@
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <h1>Verktyg/Utrustning</h1>
+            <div class="user-info">
+                <span id="user-email"></span>
+                <a href="user-management.html" id="admin-link" class="admin-link" style="display: none;">Användarhantering</a>
+                <button id="logout-btn" class="btn btn-danger">Logga ut</button>
+            </div>
+        </div>
         <div class="tabs">
             <div class="tab active" data-tab="tools">Enheter</div>
             <div class="tab" data-tab="workplaces">Arbetsplatser</div>
@@ -298,18 +306,72 @@
     </div>
     
     <!-- Load Supabase library -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4"></script>
     
     <!-- Make Supabase client global and load environmental variables -->
     <script>
-        // Make Supabase client available globally
-        window.supabaseClient = supabase;
+        // Initialize Supabase client
+        const supabaseUrl = 'https://tmxnvvzasvozysxighcf.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRteG52dnphc3ZvenlzeGlnaGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzNTU2OTQsImV4cCI6MjA1ODkzMTY5NH0.QrrxfkLWjKOGdcshaFbSsWzKQZH-54gbOQuwkcKE_Bs';
         
-        // Global access to Supabase key (Consider using a more secure approach in production)
-        window.SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRteG52dnphc3ZvenlzeGlnaGNmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzM1NTY5NCwiZXhwIjoyMDU4OTMxNjk0fQ.vjj7Ma1WV2cVlShIPHW1aqYcIQvEv7LRBMmRjXU1hxI';
+        // Fix for createClient
+        const { createClient } = supabase;
+        const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+        
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check Supabase session
+            try {
+                const { data } = await supabaseClient.auth.getSession();
+                if (!data || !data.session) {
+                    // No active session
+                    localStorage.removeItem('isLoggedIn'); // Clear any stale login state
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // User is logged in - update UI with user info
+                const userEmail = document.getElementById('user-email');
+                if (userEmail && data.session.user) {
+                    userEmail.textContent = data.session.user.email;
+                    
+                    // Check if user is admin (using email for simplicity)
+                    // Add your admin emails to this array to grant them admin access
+                    const adminEmails = [
+                        'admin@example.com',
+                        'johan@example.com',
+                        'johaank11@gmail.com',
+                        'johankarlsson@veidekke.se'
+                    ]; // Lägg till dina admin-e-postadresser här
+                    const isAdmin = adminEmails.includes(data.session.user.email);
+                    
+                    // Show admin link if user is admin
+                    const adminLink = document.getElementById('admin-link');
+                    if (adminLink && isAdmin) {
+                        adminLink.style.display = 'inline-block';
+                    }
+                }
+                
+                // Handle logout
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', async function() {
+                        const { error } = await supabaseClient.auth.signOut();
+                        if (error) {
+                            console.error('Error signing out:', error);
+                        } else {
+                            localStorage.removeItem('isLoggedIn');
+                            window.location.href = 'login.html';
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Session check error:', error);
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            }
+        });
     </script>
-    
-    <!-- Load our script (as regular script, not as module) -->
     <script src="js/script.js"></script>
 </body>
 </html> 

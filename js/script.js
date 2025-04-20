@@ -1,8 +1,11 @@
 // Globala variabler
-// Using Supabase client from global scope instead of importing it
-const supabaseUrl = 'https://tmxnvvzasvozysxighcf.supabase.co';
-const supabaseKey = window.SUPABASE_KEY;
-const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+// Using Supabase client from the variable defined in index.html
+// const supabaseUrl = 'https://tmxnvvzasvozysxighcf.supabase.co';
+// const supabaseKey = window.SUPABASE_KEY;
+// const supabase = window.supabase; // Fixed: Using the global supabase client instead of supabaseClient.createClient
+
+// Använd supabaseClient som definieras i index.html
+const supabase = supabaseClient;
 
 let workplaces = [];
 let tools = [];

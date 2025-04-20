@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Användarhantering - Verktyg/Utrustning</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #006699;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        ol, ul {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            margin: 15px 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #006699;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Användarhantering i Supabase</h1>
+        
+        <div class="note">
+            Denna guide visar hur du kan lägga till användare manuellt i Supabase för inloggning i verktygshanteringssystemet.
+        </div>
+        
+        <h2>Åtkomst till Supabase Dashboard</h2>
+        <ol>
+            <li>Gå till <a href="https://supabase.com" target="_blank">Supabase.com</a> och logga in med ditt konto.</li>
+            <li>Välj projektet "Johaank11's Project" från projektlistan.</li>
+            <li>I sidomenyn, klicka på "Authentication" för att hantera användare.</li>
+        </ol>
+        
+        <h2>Lägga till en ny användare</h2>
+        <ol>
+            <li>I Authentication-sektionen, klicka på fliken "Users".</li>
+            <li>Klicka på knappen "Add User" eller motsvarande ("+").</li>
+            <li>Fyll i:
+                <ul>
+                    <li><strong>Email:</strong> användarens e-postadress</li>
+                    <li><strong>Password:</strong> ett temporärt lösenord</li>
+                </ul>
+            </li>
+            <li>Klicka på "Add User" för att skapa användaren.</li>
+            <li>Den nya användaren kommer nu att visas i listan och kan logga in på systemet med det angivna lösenordet.</li>
+        </ol>
+        
+        <h2>Hantera befintliga användare</h2>
+        <ol>
+            <li>I Users-tabellen kan du se alla registrerade användare.</li>
+            <li>Du kan redigera användarinformation genom att klicka på en användare i listan.</li>
+            <li>För att inaktivera en användare, välj användaren och klicka på "Delete User" eller använd "Ban User"-funktionen.</li>
+        </ol>
+        
+        <div class="note">
+            <strong>Obs!</strong> För ökad säkerhet, överväg att aktivera tvåfaktorsautentisering eller e-postvarifikation i Authentication-inställningarna.
+        </div>
+        
+        <h2>Säkerhetsinställningar</h2>
+        <p>Du kan även konfigurera autentiseringsregler i Supabase:</p>
+        <ol>
+            <li>I Authentication-sektionen, klicka på "Settings".</li>
+            <li>Under "Email Auth", kan du konfigurera:
+                <ul>
+                    <li>Om e-postbekräftelse krävs</li>
+                    <li>Hur lösenordsåterställning ska fungera</li>
+                    <li>Minimikrav på lösenord</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <a href="index.html" class="back-link">← Tillbaka till huvudsidan</a>
+    </div>
+</body>
+</html> 

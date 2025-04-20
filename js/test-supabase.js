@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (testBtn) {
     testBtn.addEventListener('click', async function() {
-      console.log('Test button clicked');
+      console.log('Test button clicked');§
       resultDiv.innerHTML = '<p>Testing Supabase connection...</p>';
       
       try {
@@ -18,22 +18,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
         
         // Test connection with a simple query
-        const { data, error } = await supabase
-          .from('workplaces')
-          .select('count', { count: 'exact' });
-        
-        if (error) throw error;
-        
-        resultDiv.innerHTML = `
-          <p class="success">Connection successful!</p>
-          <p>Supabase is properly configured and the connection works.</p>
-        `;
-        
-      } catch (error) {
-        console.error('Connection error:', error);
+        console.log('Testing Supabase connection...');
+        const { data, error } = await supabase.from('workplaces').select('count');
+        if (error) {
+          console.error('Supabase connection test failed:', error);
+          resultDiv.innerHTML = `
+            <p class="error">Connection failed!</p>
+            <p>Error message: ${error.message}</p>
+            <p>Please check your Supabase URL and API key.</p>
+          `;
+        } else {
+          console.log('Supabase connection successful, count:', data);
+          resultDiv.innerHTML = `
+            <p class="success">Connection successful!</p>
+            <p>Supabase is properly configured and the connection works.</p>
+          `;
+        }
+      } catch (e) {
+        console.error('Supabase test exception:', e);
         resultDiv.innerHTML = `
           <p class="error">Connection failed!</p>
-          <p>Error message: ${error.message}</p>
+          <p>Error message: ${e.message}</p>
           <p>Please check your Supabase URL and API key.</p>
         `;
       }

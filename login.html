@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logga in - Verktyg/Utrustning</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-logo h1 {
+            color: #006699;
+        }
+        
+        .login-logo img {
+            max-width: 200px;
+        }
+        
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #006699;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #004d73;
+        }
+        
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <!-- Add your logo here if you have one -->
+            <h1>Verktyg/Utrustning</h1>
+        </div>
+        <div class="login-form">
+            <h2>Logga in</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">E-post</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Lösenord</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">Logga in</button>
+                <div id="error-message" class="error-message">
+                    Felaktig e-post eller lösenord
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Supabase client
+            const supabaseUrl = 'https://tmxnvvzasvozysxighcf.supabase.co';
+            const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRteG52dnphc3ZvenlzeGlnaGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzNTU2OTQsImV4cCI6MjA1ODkzMTY5NH0.QrrxfkLWjKOGdcshaFbSsWzKQZH-54gbOQuwkcKE_Bs';
+            
+            // Fix for createClient
+            const { createClient } = supabase;
+            const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+            
+            // Handle login form submission
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            
+            loginForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                try {
+                    errorMessage.style.display = 'none';
+                    
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+                    
+                    if (error) throw error;
+                    
+                    // Success - store session in localStorage
+                    // Supabase already handles this, but we'll add our own flag too
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Redirect to main page
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error('Login error:', error);
+                    errorMessage.style.display = 'block';
+                }
+            });
+            
+            // Check if user is already logged in
+            const checkSession = async () => {
+                try {
+                    const { data } = await supabaseClient.auth.getSession();
+                    if (data && data.session) {
+                        // User is logged in
+                        localStorage.setItem('isLoggedIn', 'true');
+                        window.location.href = 'index.html';
+                    }
+                } catch (error) {
+                    console.error('Session check error:', error);
+                }
+            };
+            
+            // Check session on page load
+            checkSession();
+        });
+    </script>
+</body>
+</html> 

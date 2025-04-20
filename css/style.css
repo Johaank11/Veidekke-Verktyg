@@ -98,11 +98,17 @@ h1 .company-name {
 }
 
 .btn-danger {
-    background-color: var(--danger-color);
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .btn-danger:hover {
-    background-color: var(--danger-hover);
+    background-color: #c9302c;
 }
 
 .form-group {
@@ -1044,4 +1050,61 @@ body:has(.modal[style*="display: block"]) .workplace-option {
 .veidekke-logo {
     max-width: 300px;
     height: auto;
+}
+
+.user-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+#user-info {
+    display: none;
+    align-items: center;
+    gap: 10px;
+}
+
+#user-email {
+    font-weight: bold;
+}
+
+/* Add header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+    margin: 0;
+    color: #006699;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#user-email {
+    font-weight: 600;
+    color: #333;
+}
+
+.admin-link {
+    color: #006699;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #006699;
+    border-radius: 4px;
+    margin-right: 10px;
+    transition: all 0.3s;
+}
+
+.admin-link:hover {
+    background-color: #006699;
+    color: white;
 } 
