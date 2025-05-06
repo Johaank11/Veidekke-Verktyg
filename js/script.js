@@ -10,12 +10,36 @@ const supabase = supabaseClient;
 let workplaces = [];
 let tools = [];
 let selectedSubcategory = null;
+let currentUserEmail = null; // Variable to store current user's email
 
 // Sorteringsvariabler
 let currentSortColumn = 'name';
 let currentSortDirection = 'asc';
 let workplaceSortColumn = 'name';
 let workplaceSortDirection = 'asc';
+
+// Function to get current user's email
+async function getCurrentUser() {
+    try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+            console.error('Error getting session:', error);
+            return null;
+        }
+        
+        if (data && data.session && data.session.user) {
+            currentUserEmail = data.session.user.email;
+            console.log('Current user email:', currentUserEmail);
+            return data.session.user;
+        } else {
+            console.log('No user session found');
+            return null;
+        }
+    } catch (err) {
+        console.error('Error in getCurrentUser:', err);
+        return null;
+    }
+}
 
 // Hjälpfunktion för att uppdatera body-klassen när dropdown-menyer är öppna/stängda
 function updateBodyClass() {
@@ -491,6 +515,9 @@ function updateSortIndicators(tableId, column, direction) {
 
 // Initialisera appen
 async function init() {
+    // Check and get current user first
+    await getCurrentUser();
+    
     // Hämta data från Supabase
     await fetchDataFromSupabase();
     
@@ -879,6 +906,11 @@ async function init() {
             closeModals();
         }
     });
+    
+    // After your supabase initialization in script.js
+    let currentUserEmail = null;
+    
+    // Add this function to get the current user
 }
 
 // Funktion för att stänga modaler (utan body-scrolllocking för att förhindra frysning)
@@ -1015,6 +1047,7 @@ async function saveTool(e) {
                     action: 'update',
                     type: 'tool',
                     target_id: name,
+                    user_email: currentUserEmail || 'unknown',
                     details: {
                         id: id,
                         changes: changes,
@@ -1049,6 +1082,7 @@ async function saveTool(e) {
                 action: 'create',
                 type: 'tool',
                 target_id: name,
+                user_email: currentUserEmail || 'unknown',
                 details: newTool
             };
             
@@ -1175,6 +1209,7 @@ async function deleteTool(id) {
                 action: 'delete',
                 type: 'tool',
                 target_id: tool.name,
+                user_email: currentUserEmail || 'unknown',
                 details: {
                     id: tool.id,
                     name: tool.name,
@@ -1266,6 +1301,7 @@ async function quickUpdateStatus(toolId, newStatus) {
                 action: 'update',
                 type: 'tool',
                 target_id: tool.name,
+                user_email: currentUserEmail || 'unknown',
                 details: {
                     id: tool.id,
                     oldStatus: oldStatus,
@@ -1337,6 +1373,7 @@ async function quickUpdateWorkplace(toolId, newWorkplaceId) {
                 action: 'update',
                 type: 'tool',
                 target_id: tool.name,
+                user_email: currentUserEmail || 'unknown',
                 details: {
                     id: tool.id,
                     oldWorkplace: oldWorkplace ? oldWorkplace.name : 'Okänd',
@@ -1843,7 +1880,8 @@ function renderLogbook() {
     if (searchTerm) {
         filteredLogbook = filteredLogbook.filter(entry => 
             entry.target_id.toLowerCase().includes(searchTerm) ||
-            (entry.details && JSON.stringify(entry.details).toLowerCase().includes(searchTerm))
+            (entry.details && JSON.stringify(entry.details).toLowerCase().includes(searchTerm)) ||
+            (entry.user_email && entry.user_email.toLowerCase().includes(searchTerm))
         );
     }
     
@@ -1877,6 +1915,7 @@ function renderLogbook() {
             <td>${actionText}</td>
             <td>${typeText}</td>
             <td>${entry.target_id}</td>
+            <td>${entry.user_email || 'Okänd'}</td>
             <td>
                 <button class="btn btn-small view-details" data-id="${entry.id}">Visa detaljer</button>
             </td>
@@ -1923,6 +1962,9 @@ function showLogDetails(id) {
     
     // Visa objektnamn om det finns, annars visa ID
     document.getElementById('log-object').textContent = entry.target_id;
+    
+    // Visa användarens e-post om det finns
+    document.getElementById('log-user').textContent = entry.user_email || 'Okänd';
     
     // Formatera JSON-data snyggt
     if (entry.details) {
@@ -1978,10 +2020,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     let valueA = a[column];
                     let valueB = b[column];
                     
+                    // Handle null or undefined values
+                    if (valueA === null || valueA === undefined) valueA = '';
+                    if (valueB === null || valueB === undefined) valueB = '';
+                    
                     // Hantera tidstämpel
                     if (column === 'timestamp') {
                         valueA = new Date(valueA);
                         valueB = new Date(valueB);
+                    } else if (typeof valueA === 'string' && typeof valueB === 'string') {
+                        // Case-insensitive string comparison for text columns
+                        valueA = valueA.toLowerCase();
+                        valueB = valueB.toLowerCase();
                     }
                     
                     // Jämför värden
