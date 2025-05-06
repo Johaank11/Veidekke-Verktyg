@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verktyg/Utrustning</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Verktyg/Utrustning</h1>
+            <div class="user-info">
+                <span id="user-email"></span>
+                <a href="user-management.html" id="admin-link" class="admin-link" style="display: none;">Användarhantering</a>
+                <button id="logout-btn" class="btn btn-danger">Logga ut</button>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab active" data-tab="tools">Enheter</div>
+            <div class="tab" data-tab="workplaces">Arbetsplatser</div>
+            <div class="tab" data-tab="logbook">Loggbok</div>
+        </div>
+        
+        <div id="tools-tab" class="tab-content">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Sök efter enheter...">
+                <button id="search-btn" class="btn">Sök</button>
+                <button id="add-tool-btn" class="btn btn-success">Lägg till enhet</button>
+            </div>
+            
+            <div class="filter-container">
+                <label for="workplace-filter">Filtrera efter arbetsplats:</label>
+                <select id="workplace-filter">
+                    <option value="all">Alla arbetsplatser</option>
+                </select>
+            </div>
+            
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="all">Alla kategorier</div>
+                <div class="category-tab" data-category="bodar">
+                    Bodar
+                    <div class="subcategory-dropdown">
+                        <div class="subcategory-item" data-category="bodar" data-subcategory="pentry">Pentry/kök</div>
+                        <div class="subcategory-item" data-category="bodar" data-subcategory="omkladning">Omklädningsrum</div>
+                        <div class="subcategory-item" data-category="bodar" data-subcategory="kontor">Kontorsmaterial</div>
+                        <div class="subcategory-item" data-category="bodar" data-subcategory="toalett">Toalettmaterial</div>
+                    </div>
+                </div>
+                <div class="category-tab" data-category="byggmaskiner">
+                    Byggmaskiner
+                    <div class="subcategory-dropdown">
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="sagar">Sågar</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="skruv">Skruvverktyg</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="svets">Svetsutrustning</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="fras">Fräs och sliputrustning</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="kap">Kap och bockningsverktyg</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="betong">Betong och murbruksutrustning</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="rengoring">Rengörningsutrustning</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="bilning">Bilningsmaskiner</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="pumpar">Pumpar</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="mat">Mät och kontrollinstrument</div>
+                        <div class="subcategory-item" data-category="byggmaskiner" data-subcategory="spikpistoler">Spikpistoler</div>
+                    </div>
+                </div>
+                <div class="category-tab" data-category="el">
+                    El
+                    <div class="subcategory-dropdown">
+                        <div class="subcategory-item" data-category="el" data-subcategory="elcentral">Elcentral</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="kablar">Kablar och kabelhantering</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="belysning">Belysning</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="transformator">Transformatorer</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="ventilation">Ventilation och kyla</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="avfuktning">Avfuktning</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="varme">Byggvärme</div>
+                        <div class="subcategory-item" data-category="el" data-subcategory="elverk">Elverk</div>
+                    </div>
+                </div>
+                <div class="category-tab" data-category="skalskydd">
+                    Skalskydd
+                    <div class="subcategory-dropdown">
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="trafik">Trafikmaterial</div>
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="staket">Staket</div>
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="forsta">Första hjälpen</div>
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="overvakning">Övervakning</div>
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="id06">ID06</div>
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="fallselar">Fallselar</div>
+                        <div class="subcategory-item" data-category="skalskydd" data-subcategory="skydd">Personliga skyddskläder</div>
+                    </div>
+                </div>
+                <div class="category-tab" data-category="lift">
+                    Lift
+                    <div class="subcategory-dropdown">
+                        <div class="subcategory-item" data-category="lift" data-subcategory="slingor">Slingor</div>
+                        <div class="subcategory-item" data-category="lift" data-subcategory="vagnar">Vagnar</div>
+                        <div class="subcategory-item" data-category="lift" data-subcategory="gips">Gipsverktyg</div>
+                        <div class="subcategory-item" data-category="lift" data-subcategory="spannband">Spännband</div>
+                    </div>
+                </div>
+                <div class="category-tab" data-category="jarnvaror">
+                    Järnvaror
+                    <div class="subcategory-dropdown">
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="handverktyg">Handverktyg</div>
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="borr">Borr/mejsel</div>
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="sagklingor">Sågklingor</div>
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="blad">Stick/tigersågblad</div>
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="skruv">Skruv</div>
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="spik">Spik</div>
+                        <div class="subcategory-item" data-category="jarnvaror" data-subcategory="ovrigt">Övrigt</div>
+                    </div>
+                </div>
+            </div>
+            
+            <table id="tools-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Namn ↕</th>
+                        <th data-sort="workplace">Arbetsplats ↕</th>
+                        <th data-sort="status">Status ↕</th>
+                        <th data-sort="responsible">Ansvarig ↕</th>
+                        <th data-sort="updated">Uppdaterad ↕</th>
+                        <th>Åtgärder</th>
+                    </tr>
+                </thead>
+                <tbody id="tools-list">
+                    <!-- Verktyg laddas in här dynamiskt -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="workplaces-tab" class="tab-content" style="display: none;">
+            <div class="search-container">
+                <input type="text" id="search-workplace-input" placeholder="Sök efter arbetsplatser...">
+                <button id="search-workplace-btn" class="btn">Sök</button>
+                <button id="add-workplace-btn" class="btn btn-success">Lägg till arbetsplats</button>
+            </div>
+            
+            <table id="workplaces-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Namn ↕</th>
+                        <th data-sort="address">Adress ↕</th>
+                        <th data-sort="responsible">Ansvarig ↕</th>
+                        <th>Åtgärder</th>
+                    </tr>
+                </thead>
+                <tbody id="workplaces-list">
+                    <!-- Arbetsplatser laddas in här dynamiskt -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="logbook-tab" class="tab-content" style="display: none;">
+            <div class="search-container">
+                <input type="text" id="search-log-input" placeholder="Sök i loggbok...">
+                <button id="search-log-btn" class="btn">Sök</button>
+            </div>
+            
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="log-type-filter">Typ:</label>
+                    <select id="log-type-filter">
+                        <option value="all">Alla typer</option>
+                        <option value="tool">Verktyg</option>
+                        <option value="workplace">Arbetsplats</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="log-action-filter">Åtgärd:</label>
+                    <select id="log-action-filter">
+                        <option value="all">Alla åtgärder</option>
+                        <option value="create">Skapad</option>
+                        <option value="update">Uppdaterad</option>
+                        <option value="delete">Borttagen</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table id="logbook-table">
+                <thead>
+                    <tr>
+                        <th data-sort="timestamp">Tidpunkt ↕</th>
+                        <th data-sort="action">Åtgärd ↕</th>
+                        <th data-sort="type">Typ ↕</th>
+                        <th data-sort="target_id">Objekt ↕</th>
+                        <th data-sort="user_email">Användare ↕</th>
+                        <th>Detaljer</th>
+                    </tr>
+                </thead>
+                <tbody id="logbook-list">
+                    <!-- Loggposter laddas in här dynamiskt -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Modal för att lägga till/redigera arbetsplats -->
+    <div id="workplace-modal" class="modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close">&times;</span>
+            <h2 id="workplace-modal-title">Lägg till arbetsplats</h2>
+            <form id="workplace-form">
+                <input type="hidden" id="workplace-id">
+                <div class="form-group">
+                    <label for="workplace-name">Namn på arbetsplats:</label>
+                    <input type="text" id="workplace-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="workplace-address">Adress:</label>
+                    <input type="text" id="workplace-address" required>
+                </div>
+                <div class="form-group">
+                    <label for="workplace-responsible">Ansvarig person:</label>
+                    <input type="text" id="workplace-responsible" required>
+                </div>
+                <button type="submit" class="btn btn-success">Spara</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal för att lägga till/redigera verktyg -->
+    <div id="tool-modal" class="modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close">&times;</span>
+            <h2 id="tool-modal-title">Lägg till enhet</h2>
+            <form id="tool-form">
+                <input type="hidden" id="tool-id">
+                <div class="form-group">
+                    <label for="tool-name">Namn på enhet:</label>
+                    <input type="text" id="tool-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="tool-workplace">Arbetsplats:</label>
+                    <select id="tool-workplace" required>
+                        <option value="">Välj arbetsplats</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tool-status">Status:</label>
+                    <select id="tool-status" required>
+                        <option value="available">Tillgänglig</option>
+                        <option value="borrowed">Används</option>
+                        <option value="broken">Trasig</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tool-category">Kategori:</label>
+                    <select id="tool-category" required>
+                        <option value="byggmaskiner">Byggmaskiner</option>
+                        <option value="el">El</option>
+                        <option value="bodar">Bodar</option>
+                        <option value="skalskydd">Skalskydd</option>
+                        <option value="lift">Lift</option>
+                        <option value="jarnvaror">Järnvaror</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tool-subcategory">Underkategori:</label>
+                    <select id="tool-subcategory">
+                        <option value="">Välj underkategori</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tool-comment">Kommentar:</label>
+                    <textarea id="tool-comment" rows="3" placeholder="Lägg till en kort kommentar..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Spara</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal för att visa detaljer från loggbok -->
+    <div id="log-details-modal" class="modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close">&times;</span>
+            <div class="log-details">
+                <div class="log-details-header">
+                    <h2 class="log-details-title">Loggdetaljer</h2>
+                </div>
+                <div id="log-details-content">
+                    <div class="log-field">
+                        <div class="log-field-label">ID:</div>
+                        <div class="log-field-value" id="log-id"></div>
+                    </div>
+                    <div class="log-field">
+                        <div class="log-field-label">Tidpunkt:</div>
+                        <div class="log-field-value" id="log-timestamp"></div>
+                    </div>
+                    <div class="log-field">
+                        <div class="log-field-label">Åtgärd:</div>
+                        <div class="log-field-value" id="log-action"></div>
+                    </div>
+                    <div class="log-field">
+                        <div class="log-field-label">Typ:</div>
+                        <div class="log-field-value" id="log-type"></div>
+                    </div>
+                    <div class="log-field">
+                        <div class="log-field-label">Objekt:</div>
+                        <div class="log-field-value" id="log-object"></div>
+                    </div>
+                    <div class="log-field">
+                        <div class="log-field-label">Användare:</div>
+                        <div class="log-field-value" id="log-user"></div>
+                    </div>
+                    <div class="log-json">
+                        <pre id="log-details-json"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal för att visa kommentarer -->
+    <div id="comment-modal" class="modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close">&times;</span>
+            <div class="comment-details">
+                <div class="comment-header">
+                    <h2 class="comment-title">Kommentar</h2>
+                </div>
+                <div id="comment-details-content">
+                    <div class="comment-field">
+                        <div class="comment-field-label">Enhet:</div>
+                        <div class="comment-field-value" id="comment-tool-name"></div>
+                    </div>
+                    <div class="comment-field">
+                        <h3>Kommentar:</h3>
+                        <div class="comment-text" id="comment-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load Supabase library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4"></script>
+    
+    <!-- Make Supabase client global and load environmental variables -->
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://tmxnvvzasvozysxighcf.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRteG52dnphc3ZvenlzeGlnaGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzNTU2OTQsImV4cCI6MjA1ODkzMTY5NH0.QrrxfkLWjKOGdcshaFbSsWzKQZH-54gbOQuwkcKE_Bs';
+        
+        // Fix for createClient
+        const { createClient } = supabase;
+        const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+        
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check Supabase session
+            try {
+                const { data } = await supabaseClient.auth.getSession();
+                if (!data || !data.session) {
+                    // No active session
+                    localStorage.removeItem('isLoggedIn'); // Clear any stale login state
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // User is logged in - update UI with user info
+                const userEmail = document.getElementById('user-email');
+                if (userEmail && data.session.user) {
+                    userEmail.textContent = data.session.user.email;
+                    
+                    // Check if user is admin (using email for simplicity)
+                    // Add your admin emails to this array to grant them admin access
+                    const adminEmails = [
+                        'admin@example.com',
+                        'johan@example.com',
+                        'johaank11@gmail.com',
+                        'johankarlsson@veidekke.se'
+                    ]; // Lägg till dina admin-e-postadresser här
+                    const isAdmin = adminEmails.includes(data.session.user.email);
+                    
+                    // Show admin link if user is admin
+                    const adminLink = document.getElementById('admin-link');
+                    if (adminLink && isAdmin) {
+                        adminLink.style.display = 'inline-block';
+                    }
+                }
+                
+                // Handle logout
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', async function() {
+                        const { error } = await supabaseClient.auth.signOut();
+                        if (error) {
+                            console.error('Error signing out:', error);
+                        } else {
+                            localStorage.removeItem('isLoggedIn');
+                            window.location.href = 'login.html';
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Session check error:', error);
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html> 
