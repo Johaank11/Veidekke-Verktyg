@@ -495,6 +495,11 @@ function switchTab(tabName) {
             content.style.display = 'none';
         }
     });
+    
+    // Fetch logbook data when switching to the logbook tab
+    if (tabName === 'logbook') {
+        fetchLogbook();
+    }
 }
 
 // Uppdatera sorteringspilar
@@ -979,6 +984,7 @@ async function saveWorkplace(e) {
         }
         
         closeModals();
+        await fetchDataFromSupabase(); // Fetch fresh data
         renderWorkplaces();
         updateWorkplaceSelects();
     } catch (error) {
@@ -1100,6 +1106,7 @@ async function saveTool(e) {
         }
         
         closeModals();
+        await fetchDataFromSupabase(); // Fetch fresh data
         renderTools();
     } catch (error) {
         console.error('Error saving tool:', error);
@@ -1225,10 +1232,11 @@ async function deleteTool(id) {
             await supabase.from('logbook').insert([logEntry]);
             
             // Uppdatera UI och loggbok
-            tools = tools.filter(tool => tool.id !== id);
-            renderTools();
+            await fetchDataFromSupabase(); // Fetch fresh data from Supabase
+            
+            // Uppdatera loggboken om den visas
             if (document.getElementById('logbook-tab').style.display !== 'none') {
-                fetchLogbook();
+                await fetchLogbook();
             }
         } catch (error) {
             console.error('Error deleting tool:', error);
@@ -1319,16 +1327,12 @@ async function quickUpdateStatus(toolId, newStatus) {
                 // Fortsätt programmet även om loggningen misslyckas
             }
             
-            // Uppdatera lokal array
-            tools[toolIndex].status = newStatus;
-            tools[toolIndex].updated = new Date().toISOString();
-            
-            // Rendera verktygen igen
-            renderTools();
+            // Hämta uppdaterad data från Supabase
+            await fetchDataFromSupabase();
             
             // Uppdatera loggboken om den visas
             if (document.getElementById('logbook-tab').style.display !== 'none') {
-                fetchLogbook();
+                await fetchLogbook();
             }
             
             // Återställ kategori och underkategori efter rendering
@@ -1393,17 +1397,12 @@ async function quickUpdateWorkplace(toolId, newWorkplaceId) {
                 // Fortsätt programmet även om loggningen misslyckas
             }
             
-            // Uppdatera lokal array
-            tools[toolIndex].workplaceId = newWorkplaceId;
-            tools[toolIndex].responsible = newWorkplace.responsible;
-            tools[toolIndex].updated = new Date().toISOString();
-            
-            // Rendera verktygen igen
-            renderTools();
+            // Hämta uppdaterad data från Supabase
+            await fetchDataFromSupabase();
             
             // Uppdatera loggboken om den visas
             if (document.getElementById('logbook-tab').style.display !== 'none') {
-                fetchLogbook();
+                await fetchLogbook();
             }
             
             // Återställ kategori och underkategori efter rendering
