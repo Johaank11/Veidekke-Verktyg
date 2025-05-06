@@ -305,6 +305,28 @@
         </div>
     </div>
     
+    <!-- Modal för att visa kommentarer -->
+    <div id="comment-modal" class="modal">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close">&times;</span>
+            <div class="comment-details">
+                <div class="comment-header">
+                    <h2 class="comment-title">Kommentar</h2>
+                </div>
+                <div id="comment-details-content">
+                    <div class="comment-field">
+                        <div class="comment-field-label">Enhet:</div>
+                        <div class="comment-field-value" id="comment-tool-name"></div>
+                    </div>
+                    <div class="comment-field">
+                        <h3>Kommentar:</h3>
+                        <div class="comment-text" id="comment-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Load Supabase library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4"></script>
     

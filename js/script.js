@@ -42,6 +42,19 @@ const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
 const searchWorkplaceInput = document.getElementById('search-workplace-input');
 const searchWorkplaceBtn = document.getElementById('search-workplace-btn');
+const commentModal = document.getElementById('comment-modal');
+
+// Funktion för att visa kommentarmodal
+function showCommentModal(toolName, comment) {
+    document.getElementById('comment-tool-name').textContent = toolName;
+    document.getElementById('comment-text').textContent = comment;
+    commentModal.style.display = 'block';
+}
+
+// Stäng kommentarmodal
+function closeCommentModal() {
+    commentModal.style.display = 'none';
+}
 
 // Funktion för att hämta data från Supabase
 async function fetchDataFromSupabase() {
@@ -308,7 +321,12 @@ function renderTools() {
         
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><span class="tool-name">${tool.name}</span>${tool.comment ? '<span class="comment-star" style="color: red; margin-left: 4px;">★</span>' : ''}</td>
+            <td>
+                <div class="tool-name-container ${tool.comment ? 'has-comment' : ''}">
+                    <span class="tool-name">${tool.name}</span>
+                    ${tool.comment ? '<span class="comment-star" style="color: red; margin-left: 4px;">★</span>' : ''}
+                </div>
+            </td>
             <td class="workplace-cell">
                 <div>${workplaceName}</div>
                 <div class="workplace-select">
@@ -329,6 +347,15 @@ function renderTools() {
         `;
         
         toolsList.appendChild(row);
+        
+        // Add click event listener to show comments
+        if (tool.comment) {
+            const nameContainer = row.querySelector('.tool-name-container');
+            nameContainer.addEventListener('click', () => {
+                showCommentModal(tool.name, tool.comment);
+            });
+            nameContainer.style.cursor = 'pointer';
+        }
     });
     
     // Lägg till händelselyssnare för arbetsplatsval
@@ -1055,7 +1082,7 @@ document.getElementById('tool-workplace').addEventListener('change', function() 
 
 // Redigera arbetsplats
 function editWorkplace(id) {
-    const workplace = workplaces.find(wp => wp.id === id);
+    const workplace = workplaces.find(wp => String(wp.id) === String(id));
     if (workplace) {
         document.getElementById('workplace-modal-title').textContent = 'Redigera arbetsplats';
         document.getElementById('workplace-id').value = workplace.id;
@@ -1979,5 +2006,23 @@ document.addEventListener('DOMContentLoaded', function() {
             logDetailsModal.style.display = 'none';
         }
     });
+});
+
+// Add event listener to close the comment modal
+document.addEventListener('DOMContentLoaded', function() {
+    // Close comment modal when X button is clicked
+    const commentCloseBtn = document.querySelector('#comment-modal .close');
+    if (commentCloseBtn) {
+        commentCloseBtn.addEventListener('click', closeCommentModal);
+    }
+    
+    // Close comment modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === commentModal) {
+            closeCommentModal();
+        }
+    });
+    
+    // ... existing DOMContentLoaded code ...
 });
 
